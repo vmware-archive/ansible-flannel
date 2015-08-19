@@ -1,0 +1,10 @@
+[Unit]
+Requires={{flanneld_service}}
+After={{flanneld_service}}
+Before=docker.service
+
+[Service]
+ExecStart=/usr/bin/sleep infinity
+
+[Install]
+WantedBy=multi-user.target

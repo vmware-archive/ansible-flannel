@@ -1,0 +1,10 @@
+---
+galaxy_info:
+  author: Yann Hodique
+  description: flannel overlay generation
+  company: VMware
+  license: MIT
+  min_ansible_version: 1.4
+  categories:
+    - system
+dependencies: []
