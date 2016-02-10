@@ -3,43 +3,17 @@
 - name: Create systemd drop-in directory
   file: path={{flanneld_dropin_dir}} state=directory mode=0755
   sudo: yes
-  sudo_user: root
 
 - name: Set peers conf
   sudo: yes
   template: src=50-network-config.conf dest={{flanneld_dropin_dir}}/50-network-config.conf
-  register: flanneld_dropin
+  notify:
+    - Reload systemd
 
-- name: Add flanneld-install unit
+- name: Install flanneld unit
   sudo: yes
-  template: src=flanneld-install.service dest=/etc/systemd/system/flanneld-install.service
+  command: systemctl add-wants multi-user.target {{flanneld_service}}
   register: flanneld_install
-
-- name: Reload systemd
-  sudo: yes
-  shell: systemctl daemon-reload
-  when: flanneld_dropin.changed or flanneld_install.changed
-
-- name: Start flannel
-  sudo: yes
-  service: name=flanneld-install.service state=started enabled=yes
-  register: flannel_started
-  
-- name: Stop docker
-  sudo: yes
-  service: name=docker.service state=stopped
-  when: flannel_started.changed
-  register: docker_stopped
-
-- name: Destroy docker0 if needed
-  sudo: yes
-  shell: >
-    ip link set docker0 down &&
-    brctl delbr docker0 ||
-    true
-  when: docker_stopped.changed
-
-- name: Start docker
-  sudo: yes
-  service: name=docker.service state=started
-  when: docker_stopped.changed
+  changed_when: "'Created symlink' in flanneld_install.stdout"
+  notify:
+    - Reload systemd
