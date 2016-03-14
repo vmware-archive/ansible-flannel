@@ -4,6 +4,12 @@
   file: path={{flanneld_dropin_dir}} state=directory mode=0755
   sudo: yes
 
+- name: Set env conf
+  sudo: yes
+  template: src=10-env.conf dest={{flanneld_dropin_dir}}/10-env.conf
+  notify:
+    - Reload systemd
+
 - name: Set peers conf
   sudo: yes
   template: src=50-network-config.conf dest={{flanneld_dropin_dir}}/50-network-config.conf
