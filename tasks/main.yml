@@ -16,10 +16,12 @@
   notify:
     - Reload systemd
 
+- name: Create docker drop-in directory
+  file: path={{docker_dropin_dir}} state=directory mode=0755
+  sudo: yes
+
 - name: Install flanneld unit
   sudo: yes
-  command: systemctl add-wants multi-user.target {{flanneld_service}}
-  register: flanneld_install
-  changed_when: "'Created symlink' in flanneld_install.stdout"
+  template: src=40-flannel.conf dest={{docker_dropin_dir}}/40-flannel.conf
   notify:
     - Reload systemd
