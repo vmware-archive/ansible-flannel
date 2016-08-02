@@ -20,6 +20,13 @@
   file: path={{docker_dropin_dir}} state=directory mode=0755
   sudo: yes
 
+- name: Check etcd is healthy
+  shell: etcdctl cluster-health
+  register: result
+  until: result.stdout.find("cluster is healthy") != -1
+  retries: 10
+  delay: 10
+
 - name: Install flanneld unit
   sudo: yes
   template: src=40-flannel.conf dest={{docker_dropin_dir}}/40-flannel.conf
