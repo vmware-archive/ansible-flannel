@@ -21,7 +21,7 @@
   sudo: yes
   service: name=docker.service state=stopped
 
-- name: Destroy docker0 if needed
+- name: Destroy docker0
   sudo: yes
   shell: >
     ip link set docker0 down &&
