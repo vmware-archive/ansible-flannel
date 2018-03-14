@@ -1,13 +1,13 @@
 ---
 - name: Reload systemd
-  sudo: yes
+  become: yes
   command: systemctl daemon-reload
   notify:
     - Start flannel
     - Reconfigure docker
 
 - name: Start flannel
-  sudo: yes
+  become: yes
   service: name={{flanneld_service}} state=started enabled=yes
 
 - name: Reconfigure docker
@@ -18,16 +18,16 @@
     - Start docker
 
 - name: Stop docker
-  sudo: yes
+  become: yes
   service: name=docker.service state=stopped
 
 - name: Destroy docker0
-  sudo: yes
+  become: yes
   shell: >
     ip link set docker0 down &&
     brctl delbr docker0 ||
     true
 
 - name: Start docker
-  sudo: yes
+  become: yes
   service: name=docker.service state=started
