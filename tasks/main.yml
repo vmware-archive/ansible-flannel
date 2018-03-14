@@ -2,23 +2,23 @@
 # tasks file for ansible-flannel
 - name: Create systemd drop-in directory
   file: path={{flanneld_dropin_dir}} state=directory mode=0755
-  sudo: yes
+  become: yes
 
 - name: Set env conf
-  sudo: yes
+  become: yes
   template: src=10-env.conf dest={{flanneld_dropin_dir}}/10-env.conf
   notify:
     - Reload systemd
 
 - name: Set peers conf
-  sudo: yes
+  become: yes
   template: src=50-network-config.conf dest={{flanneld_dropin_dir}}/50-network-config.conf
   notify:
     - Reload systemd
 
 - name: Create docker drop-in directory
   file: path={{docker_dropin_dir}} state=directory mode=0755
-  sudo: yes
+  become: yes
 
 - name: Check etcd is healthy
   shell: etcdctl cluster-health
@@ -28,7 +28,7 @@
   delay: 10
 
 - name: Install flanneld unit
-  sudo: yes
+  become: yes
   template: src=40-flannel.conf dest={{docker_dropin_dir}}/40-flannel.conf
   notify:
     - Reload systemd
