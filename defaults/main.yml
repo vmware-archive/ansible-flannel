@@ -6,6 +6,7 @@ flanneld_network: "172.42.0.0/16"
 flanneld_backend_type: "host-gw"
 flanneld_img: "quay.io/coreos/flannel"
 flannel_rkt_global_args: ""
+flannel_log_level: 0
 
 docker_service: "docker.service"
 docker_dropin_dir: "/etc/systemd/system/{{docker_service}}.d"
