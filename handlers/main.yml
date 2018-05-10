@@ -3,8 +3,13 @@
   become: yes
   command: systemctl daemon-reload
   notify:
+    - Stop flannel
     - Start flannel
     - Reconfigure docker
+
+- name: Stop flannel
+  become: yes
+  service: name={{flanneld_service}} state=stopped
 
 - name: Start flannel
   become: yes
