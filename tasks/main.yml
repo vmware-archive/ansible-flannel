@@ -16,6 +16,13 @@
   notify:
     - Reload systemd
 
+- name: Set wait for static ip conf
+  become: yes
+  template: src=05-after-static-ip.conf.j2 dest={{flanneld_dropin_dir}}/05-after-static-ip.conf
+  when: static_ip_service is defined
+  notify:
+    - Reload systemd
+
 - name: Create docker drop-in directory
   file: path={{docker_dropin_dir}} state=directory mode=0755
   become: yes
