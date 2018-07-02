@@ -4,12 +4,18 @@
   command: systemctl daemon-reload
   notify:
     - Stop flannel
+    - Remove flannel's local subnet config file
     - Start flannel
     - Reconfigure docker
 
 - name: Stop flannel
   become: yes
   service: name={{flanneld_service}} state=stopped
+
+- name: Remove flannel's local subnet config file
+  become: yes
+  file: path=/run/flannel/ state=absent
+  when: remove_local_subnet_config
 
 - name: Start flannel
   become: yes
