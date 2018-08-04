@@ -1,3 +1,9 @@
 [Unit]
 Requires={{static_ip_service}}
 After={{static_ip_service}}
+
+[Service]
+# No DHCP address should be set
+ExecStartPre=/usr/bin/bash -c '[[ ! $(/usr/bin/ip -f inet -br address show eth0 dynamic) ]]'
+# Static address should be set
+ExecStartPre=/usr/bin/bash -c '[[ $(/usr/bin/ip -f inet -br address show eth0 permanent) ]]'
