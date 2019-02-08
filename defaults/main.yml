@@ -7,7 +7,7 @@ flanneld_dropin_dir: "/etc/systemd/system/{{flanneld_service}}.d"
 flanneld_network: "172.24.0.0/16"
 flanneld_backend_type: "host-gw"
 flanneld_img: "quay.io/coreos/flannel"
-flanneld_ver: "v0.9.0"
+flanneld_ver: "v0.11.0"
 flannel_rkt_global_args: ""
 flannel_log_level: 0
 flannel_healthz_port: 8070
