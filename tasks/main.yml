@@ -1,3 +1,5 @@
+# Copyright © 2015 VMware, Inc. All Rights Reserved.
+# SPDX-License-Identifier: MIT OR GPL-3.0-only
 ---
 # tasks file for ansible-flannel
 - name: Create systemd drop-in directory
