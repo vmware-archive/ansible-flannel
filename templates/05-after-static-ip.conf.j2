@@ -1,9 +1,5 @@
 # Copyright © 2015 VMware, Inc. All Rights Reserved.
 # SPDX-License-Identifier: MIT OR GPL-3.0-only
-[Unit]
-Requires={{static_ip_service}}
-After={{static_ip_service}}
-
 [Service]
 # No DHCP address should be set
 ExecStartPre=/usr/bin/bash -c '[[ ! $(/usr/bin/ip -f inet -br address show eth0 dynamic) ]]'
