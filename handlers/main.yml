@@ -27,19 +27,11 @@
   command: /bin/true
   notify:
     - Stop docker
-    - Destroy docker0
     - Start docker
 
 - name: Stop docker
   become: yes
   service: name=docker.service state=stopped
-
-- name: Destroy docker0
-  become: yes
-  shell: >
-    ip link set docker0 down &&
-    brctl delbr docker0 ||
-    true
 
 - name: Start docker
   become: yes
