@@ -8,7 +8,7 @@
     - Stop flannel
     - Remove flannel's local subnet config file
     - Start flannel
-    - Reconfigure docker
+    - Restart docker
 
 - name: Stop flannel
   become: yes
@@ -23,16 +23,6 @@
   become: yes
   service: name={{flanneld_service}} state=started enabled=yes
 
-- name: Reconfigure docker
-  command: /bin/true
-  notify:
-    - Stop docker
-    - Start docker
-
-- name: Stop docker
+- name: Restart docker
   become: yes
-  service: name=docker.service state=stopped
-
-- name: Start docker
-  become: yes
-  service: name=docker.service state=started
+  service: name=docker.service state=restarted
